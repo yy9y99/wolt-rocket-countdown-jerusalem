@@ -1,24 +1,25 @@
-
 import React, { useState, useEffect } from 'react';
-import { toZonedTime, fromZonedTime } from 'date-fns-tz';
-import { differenceInMinutes, addMinutes } from 'date-fns';
+
+// Global timezone setting
+const TIMEZONE = 'Asia/Jerusalem';
+
+// Hard-coded destination time (example: January 15, 2025 at 3:30 PM Jerusalem time)
+const DESTINATION_TIME = new Date('2025-01-15T15:30:00');
 
 const CountdownTimer: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
-  const [totalMinutes, setTotalMinutes] = useState<number>(45);
-  
-  // Hardcoded destination time - 45 minutes from now in Jerusalem time
-  const JERUSALEM_TZ = 'Asia/Jerusalem';
   
   useEffect(() => {
     const calculateTimeLeft = () => {
       const now = new Date();
-      const nowInJerusalem = toZonedTime(now, JERUSALEM_TZ);
       
-      // Set destination time to 45 minutes from the initial load time
-      const destinationTime = addMinutes(nowInJerusalem, 45);
+      // Convert current time to Jerusalem timezone
+      const nowInTimezone = new Date(now.toLocaleString("en-US", {timeZone: TIMEZONE}));
       
-      const minutesLeft = differenceInMinutes(destinationTime, nowInJerusalem);
+      // Convert destination time to Jerusalem timezone
+      const destinationInTimezone = new Date(DESTINATION_TIME.toLocaleString("en-US", {timeZone: TIMEZONE}));
+      
+      const minutesLeft = Math.floor((destinationInTimezone.getTime() - nowInTimezone.getTime()) / (1000 * 60));
       
       if (minutesLeft <= 0) {
         setTimeLeft(null); // Show question marks
