@@ -16,8 +16,8 @@ const Index = () => {
         <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
       </div>
 
-      {/* Main content */}
-      <div className="flex-1 px-6 py-8">
+      {/* Main content - reduced padding */}
+      <div className="flex-1 px-6 py-4">
         <CountdownTimer />
       </div>
     </div>
